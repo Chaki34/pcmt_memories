@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCMT Alumni</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+
+    <style>
+        /* ================= NEW ADVANCED SCROLL LOGIC ================= */
+        html {
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #050816;
+            overflow-x: hidden;
+            color: white;
+        }
+
+        section {
+            height: 100vh;
+            width: 100%;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            /* The "Smooth Vanish" Effect */
+            transition: opacity 1s ease, transform 1s ease, filter 1s ease;
+            opacity: 0;
+            transform: scale(0.9) translateY(50px);
+            filter: blur(10px);
+        }
+
+        /* When section enters viewport */
+        section.active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            filter: blur(0px);
+        }
+
+        /* ================= HERO SECTION (EXISTING STYLES) ================= */
+      /* ========================================= */
+/* HERO SECTION */
+/* ========================================= */
+
+.hero{
+    position:relative;
+
+    width:100%;
+    height:100vh;
+
+    overflow:hidden;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#050816;
+}
+
+/* ========================================= */
+/* HERO BACKGROUND VIDEO */
+/* ========================================= */
+
+.hero-video{
+    position:absolute;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    z-index:0;
+
+    pointer-events:none;
+
+    filter:
+            brightness(0.45)
+            contrast(1.1)
+            saturate(1.1);
+
+    animation:heroZoom 20s ease-in-out infinite alternate;
+}
+
+/* Smooth cinematic zoom */
+
+@keyframes heroZoom{
+
+    from{
+        transform:scale(1);
+    }
+
+    to{
+        transform:scale(1.08);
+    }
+}
+
+/* ========================================= */
+/* VIDEO OVERLAY */
+/* ========================================= */
+
+.overlay{
+    position:absolute;
+
+    inset:0;
+
+    background:
+            linear-gradient(
+                    to bottom,
+                    rgba(5,8,22,0.25),
+                    rgba(5,8,22,0.85)
+            );
+
+    z-index:1;
+}
+
+/* ========================================= */
+/* BIG BACKGROUND TEXT */
+/* ========================================= */
+
+.hero-bg-text{
+    position:absolute;
+
+    font-size:18vw;
+
+    font-weight:800;
+
+    color:rgba(245, 215, 110, 0.08); /* soft yellow base */
+
+    -webkit-text-stroke: 2px rgba(11, 61, 145, 0.35); /* soft dark blue border */
+
+    letter-spacing:10px;
+
+    text-transform:uppercase;
+
+    white-space:nowrap;
+
+    user-select:none;
+
+    z-index:2;
+
+    animation:floatText 6s ease-in-out infinite;
+}
+
+@keyframes floatText{
+
+    0%,100%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-20px);
+    }
+}
+
+/* ========================================= */
+/* HERO CONTENT */
+/* ========================================= */
+
+.hero-content{
+    position:relative;
+
+    z-index:5;
+
+    text-align:center;
+
+    max-width:900px;
+
+    padding:20px;
+}
+
+.hero-subtitle{
+    font-size:18px;
+
+    letter-spacing:4px;
+
+    text-transform:uppercase;
+
+    color:#cbd5e1;
+
+    margin-bottom:20px;
+}
+
+.hero-title{
+    font-size:72px;
+
+    font-weight:800;
+
+    line-height:1.1;
+
+    margin-bottom:25px;
+
+    background:
+            linear-gradient(
+                    to right,
+                    #ffffff,
+                    #8ec5fc
+            );
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+}
+
+.hero-description{
+    font-size:18px;
+
+    color:#d1d5db;
+
+    line-height:1.8;
+
+    margin-bottom:40px;
+}
+
+/* ========================================= */
+/* BUTTONS */
+/* ========================================= */
+
+.btn{
+    display:inline-block;
+
+    padding:16px 34px;
+
+    border-radius:60px;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    text-decoration:none;
+
+    transition:0.4s;
+
+    overflow:hidden;
+}
+
+.btn-primary{
+    background:
+            linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #60a5fa
+            );
+
+    color:white;
+
+    box-shadow:
+            0 10px 30px
+            rgba(37,99,235,0.4);
+}
+
+.btn-primary:hover{
+    transform:translateY(-5px);
+}
+
+.btn-outline{
+    border:2px solid rgba(255,255,255,0.25);
+
+    color:white;
+
+    margin-left:15px;
+
+    backdrop-filter:blur(10px);
+}
+
+.btn-outline:hover{
+    background:white;
+
+    color:#050816;
+}
+
+
+/* ========================================= */
+/* RESPONSIVE */
+/* ========================================= */
+
+@media(max-width:768px){
+
+    .hero-title{
+        font-size:42px;
+    }
+
+    .hero-description{
+        font-size:16px;
+    }
+
+    .hero-bg-text{
+        font-size:28vw;
+    }
+
+    .stats{
+        gap:15px;
+    }
+
+    .stat-card{
+        min-width:140px;
+        padding:18px;
+    }
+}
+        /* ================= MEMORIES SECTION (ENHANCED) ================= */
+        .memories-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            padding: 0 8%;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .memories-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -3; }
+        .memories-overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 100%); z-index: -2; }
+
+        .memories-content {
+            z-index: 10;
+            padding: 60px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 40px;
+        }
+
+        /* CARD STACK SYSTEM */
+        .memory-stack-container {
+            position: relative;
+            height: 450px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+        }
+
+        .memory-card {
+            position: absolute;
+            width: 300px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 25px;
+            cursor: pointer;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.6s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        /* Card layering logic */
+        .memory-card:nth-child(1) { transform: translateZ(0) translateY(0); z-index: 3; }
+        .memory-card:nth-child(2) { transform: translateZ(-50px) translateY(20px) scale(0.95); z-index: 2; opacity: 0.8; }
+        .memory-card:nth-child(3) { transform: translateZ(-100px) translateY(40px) scale(0.9); z-index: 1; opacity: 0.6; }
+
+        .memory-card.swap-out {
+            transform: translateX(120%) rotate(20deg) !important;
+            opacity: 0 !important;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 60%;
+            background: #1d3557;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+.sports-section{
+    height:100vh;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* BACKGROUND VIDEO */
+.bg-video{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:0;
+}
+
+/* DARK OVERLAY FOR READABILITY */
+.overlay{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.55);
+    z-index:1;
+}
+/* THE MAIN CARD CONTAINER */
+.sports-card {
+    position: absolute;
+    bottom: 50px; /* Positioned exactly like the red box in your image */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+
+    width: 90%;
+    max-width: 1300px;
+    padding: 50px;
+    border-radius: 20px;
+
+    /* GLASSMORPHISM / BLUR EFFECT */
+    background: rgba(0, 0, 0, 0.1); /* Darkened to create the "shadow section" look */
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+
+    color: white;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+
+    /* Glass Border & Shadow */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+/* TOP TAG (Fixed color to match professional theme) */
+.tag {
+    display: block;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: #8ec5fc; /* Professional light blue instead of default blue */
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+/* MAIN TITLE (Consolidated conflict between ID and H2) */
+.sports-card h2, #sport-title {
+    font-size: 42px;
+    font-weight: 800;
+    margin: 10px 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: linear-gradient(to right, #ffffff, #8ec5fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: 'Poppins', sans-serif; /* Priority over Georgia for modern look */
+}
+
+/* DESCRIPTION (Fixed color conflict for readability) */
+.sports-card p, #sport-desc {
+    font-size: 18px;
+    line-height: 1.8;
+    max-width: 950px;
+    margin: 0 auto;
+    color: rgba(255, 255, 255, 0.85); /* Soft white for professional look */
+}
+
+/* NAVIGATION BUTTON */
+.nav-btn {
+    margin-top: 25px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: #ff3e3e; /* Standard Red to match your "Red Arrow" request */
+    color: white;
+    font-size: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-btn:hover {
+    transform: scale(1.1) rotate(5deg);
+    background: #ff5555;
+    box-shadow: 0 15px 25px rgba(255, 0, 0, 0.4);
+}
+
+/* REFLECTION EFFECT */
+.sports-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Subtle radial light from top-left */
+    background: radial-gradient(
+        circle at 20% 0%,
+        rgba(255, 255, 255, 0.15),
+        transparent 50%
+    );
+    pointer-events: none;
+    z-index: -1;
+}
+
+        .card-img img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
+
+        /* ================= COLLEGE SECTION ================= */
+/* ================= COLLEGE SECTION ================= */
+
+.college-section {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    scroll-snap-align: start;
+}
+
+/* BACKGROUND VIDEO */
+.college-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+}
+
+/* CINEMATIC OVERLAY (Matches Sports & Hero) */
+.college-overlay {
+    position: absolute;
+    inset: 0;
+    /* Darker on the left to make the card text pop */
+    background: linear-gradient(
+        to right,
+        rgba(5, 8, 22, 0.9) 0%,
+        rgba(5, 8, 22, 0.4) 50%,
+        transparent 100%
+    );
+    z-index: -1;
+}
+
+/* MODERN GLASS CARD (Fixed for professional consistency) */
+.college-card {
+    position: absolute;
+    top: 50%;
+    left: 80px; /* Spaced slightly more for breathability */
+    transform: translateY(-50%);
+
+    width: 500px;
+    padding: 60px;
+    border-radius: 24px;
+
+    /* GLASS EFFECT */
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    color: white;
+    font-family: 'Poppins', sans-serif; /* Priority over Georgia for consistency */
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+
+    transition: all 0.8s ease;
+}
+
+/* Card Shine Effect */
+.college-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at top left, rgba(255,255,255,0.1), transparent 70%);
+    pointer-events: none;
+    border-radius: 24px;
+}
+
+/* TAG (Fixed to professional Blue accent) */
+.college-card .tag {
+    display: inline-block;
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: #8ec5fc;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+/* TITLE (Fixed with professional gradient) */
+#college-title {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 15px 0;
+    background: linear-gradient(to right, #ffffff, #8ec5fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* DESCRIPTION (Fixed color for readability) */
+#college-desc {
+    font-size: 17px;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 400;
+}
+
+/* RESPONSIVE FIX */
+@media(max-width: 768px) {
+    .college-card {
+        left: 5%;
+        width: 90%;
+        padding: 40px;
+        top: auto;
+        bottom: 50px;
+        transform: none;
+    }
+    #college-title { font-size: 32px; }
+}
+
+        @media(max-width: 992px) {
+            .memories-section { grid-template-columns: 1fr; padding: 20px; text-align: center; }
+            .memories-content { padding: 30px; }
+        }
+    </style>
+
+    <!-- ================= CSS FOR ACCESS SECTION ================= -->
+    <style>
+        .access-section {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: #050816; /* Deep dark theme */
+            scroll-snap-align: start;
+
+            /* Reveal animation from previous UI */
+            transition: opacity 1s ease, transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .access-section.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .access-bg-overlay {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
+            z-index: 1;
+        }
+
+        .access-container {
+            display: flex;
+            gap: 40px;
+            z-index: 10;
+            max-width: 1200px;
+            width: 90%;
+            padding: 20px;
+        }
+
+        /* THE PORTAL CARDS */
+        .portal-card {
+            flex: 1;
+            padding: 60px 40px;
+            border-radius: 30px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .portal-card:hover {
+            transform: translateY(-15px);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ICONS */
+        .portal-icon {
+            font-size: 60px;
+            margin-bottom: 25px;
+            color: #8ec5fc;
+            filter: drop-shadow(0 10px 15px rgba(142, 197, 252, 0.3));
+        }
+
+        .portal-tag {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .portal-title {
+            font-size: 36px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 20px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .portal-desc {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+            font-size: 16px;
+            margin-bottom: 40px;
+        }
+
+        /* PORTAL BUTTONS */
+        .portal-btn {
+            display: inline-block;
+            padding: 16px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            transition: 0.4s;
+        }
+
+        /* Admin Red Button */
+        .btn-admin {
+            background: #ff3e3e; /* Red as requested earlier */
+            color: white;
+            box-shadow: 0 10px 20px rgba(255, 62, 62, 0.3);
+        }
+
+        .btn-admin:hover {
+            background: #ff5555;
+            box-shadow: 0 15px 30px rgba(255, 62, 62, 0.5);
+            transform: scale(1.05);
+        }
+
+        /* Alumni Blue Button */
+        .btn-student {
+            background: linear-gradient(135deg, #2563eb, #60a5fa);
+            color: white;
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-student:hover {
+            background: linear-gradient(135deg, #3b82f6, #93c5fd);
+            box-shadow: 0 15px 30px rgba(37, 99, 235, 0.5);
+            transform: scale(1.05);
+        }
+
+        /* Mobile View */
+        @media (max-width: 900px) {
+            .access-container { flex-direction: column; }
+            .portal-card { padding: 40px 30px; }
+            .portal-title { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HERO SECTION -->
+<section class="hero active">
+
+    <!-- ========================================= -->
+    <!-- HERO BACKGROUND VIDEO -->
+    <!-- ========================================= -->
+
+    <video
+            class="hero-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+    >
+
+        <source
+                src="https://www.pexels.com/download/video/35854268/"
+                type="video/mp4"
+        >
+
+    </video>
+
+    <!-- VIDEO DARK OVERLAY -->
+    <div class="hero-video-overlay"></div>
+
+    <!-- BIG BACKGROUND TEXT -->
+<!--    <div class="hero-bg-text">-->
+<!--        PCMT-->
+<!--    </div>-->
+
+
+
+    <!-- EXTRA OVERLAY -->
+    <div class="overlay"></div>
+
+    <!-- HERO CONTENT -->
+    <div class="hero-content">
+
+
+
+        <h1 class="hero-title">
+            PCMT Alumni Association
+        </h1>
+
+        <p class="hero-description">
+            Reconnect with classmates, celebrate achievements,
+            and grow your professional network through a modern,
+            immersive alumni platform.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a th:href="@{/alumni-search}" class="btn btn-primary">
+                Explore Alumni
+            </a>
+
+            <a href="#" class="btn btn-outline">
+                Join Community
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+</section>
+
+<!-- MEMORIES SECTION -->
+<section class="memories-section">
+    <video class="memories-video" autoplay muted loop playsinline>
+        <source src="https://www.pexels.com/download/video/36878099/" type="video/mp4">
+    </video>
+    <div class="memories-overlay"></div>
+
+    <div class="memories-content">
+        <span class="memory-tag" style="background:rgba(37,99,235,0.2); padding:5px 15px; border-radius:20px; color:#8ec5fc; font-size:12px; letter-spacing:2px;">CAMPUS MEMORIES</span>
+        <h2 style="font-size: 48px; margin: 15px 0; background:linear-gradient(to right,#ffffff,#8ec5fc); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Every Path Holds A Story</h2>
+        <p style="margin-bottom:30px; color:#e2e8f0; line-height:1.6;">PCMT is more than a college — it's a lifetime of experiences. Click the cards on the right to browse through our history line-by-line.</p>
+        <a href="#" class="btn btn-primary">Explore All</a>
+    </div>
+
+
+</section>
+
+<!-- ================= SPORTS MEMORIES SECTION ================= -->
+<section class="sports-section">
+
+    <!-- BACKGROUND VIDEO -->
+    <video class="bg-video" muted autoplay loop playsinline preload="metadata">
+        <source src="https://www.pexels.com/download/video/30172302/" type="video/mp4">
+    </video>
+
+    <!-- DARK OVERLAY -->
+    <div class="overlay"></div>
+
+    <!-- CONTENT CARD -->
+    <div class="sports-card">
+
+        <span class="tag">SPORTS MEMORIES</span>
+
+        <h2 id="sport-title">Cricket Memories</h2>
+
+        <p id="sport-desc">
+            Our cricket ground has witnessed unforgettable moments of teamwork,
+            passion, and victory.
+        </p>
+
+        <button class="nav-btn" id="nextBtn">
+            <i class="fa-solid fa-arrow-right"></i>
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= COLLEGE DAYS SECTION ================= -->
+<section class="college-section">
+
+    <!-- BACKGROUND VIDEO -->
+    <video class="college-bg" muted autoplay loop playsinline>
+        <source src="https://www.pexels.com/download/video/3130284/" type="video/mp4">
+    </video>
+
+    <div class="college-overlay"></div>
+
+    <!-- OLD PAPER CARD -->
+    <div class="college-card">
+
+        <span class="tag">COLLEGE DAYS</span>
+
+        <h2 id="college-title">Computer Lab Memories</h2>
+
+        <p id="college-desc">
+            Late-night coding sessions, project submissions, and endless learning in our advanced computer labs.
+        </p>
+
+        <button class="nav-btn" id="collegeNextBtn">
+            <i class="fa-solid fa-arrow-right"></i>
+        </button>
+
+    </div>
+
+</section>
+
+<!-- ================= ACCESS / PORTAL SECTION ================= -->
+<section class="access-section" id="portal">
+
+    <!-- Subtle Background (Matches the dark alumni theme) -->
+    <div class="access-bg-overlay"></div>
+
+    <div class="access-container">
+
+        <!-- CARD 1: ADMIN PORTAL -->
+        <div class="portal-card admin-gate">
+            <div class="portal-icon">
+                <i class="fa-solid fa-user-shield"></i>
+            </div>
+            <span class="portal-tag">Management</span>
+            <h2 class="portal-title">Admin Portal</h2>
+            <p class="portal-desc">
+                Authorized access for PCMT faculty and association heads to manage the alumni database, events, and communications.
+            </p>
+            <a href="/admin/login" class="portal-btn btn-admin">Login as Admin</a>
+        </div>
+
+        <!-- CARD 2: ALUMNI REGISTRATION -->
+        <div class="portal-card student-gate">
+            <div class="portal-icon">
+                <i class="fa-solid fa-user-graduate"></i>
+            </div>
+            <span class="portal-tag">Join Community</span>
+            <h2 class="portal-title">Passout Student</h2>
+            <p class="portal-desc">
+                Welcome back to the legacy. Register your details to reconnect with batchmates, access career opportunities, and stay updated.
+            </p>
+            <a href="/register" class="portal-btn btn-student">Register Now</a>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- SCRIPTS -->
+<script>
+    // =========================================
+    // 1. SMOOTH SCROLL REVEAL (VANISH EFFECT)
+    // =========================================
+    const observerOptions = {
+        threshold: 0.5
+    };
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            } else {
+                entry.target.classList.remove('active');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('section').forEach(section => {
+        sectionObserver.observe(section);
+    });
+
+    // =========================================
+    // 2. INTERACTIVE CARD SWAP LOGIC
+    // =========================================
+    const stack = document.getElementById('stack');
+    const cards = stack.querySelectorAll('.memory-card');
+
+    stack.addEventListener('click', function() {
+        const topCard = stack.lastElementChild;
+
+        // Add flying animation
+        topCard.classList.add('swap-out');
+
+        // After animation finishes, move card to the bottom
+        setTimeout(() => {
+            topCard.classList.remove('swap-out');
+            stack.prepend(topCard); // Puts it at the bottom of the stack
+        }, 600);
+    });
+
+    // =========================================
+    // 3. THREE.JS (RETAINED FROM ORIGINAL)
+    // =========================================
+    // Note: I've kept the logic skeleton so your building model still works.
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 3, 15);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.getElementById("building-container").appendChild(renderer.domElement);
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 2);
+    scene.add(ambientLight);
+
+    function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+</script>
+
+<script>
+    const sports = [
+        {
+            title: "Cricket Memories",
+            desc: "Our cricket ground has witnessed unforgettable moments of teamwork, passion, and victory.",
+            video: "https://www.pexels.com/download/video/30172302/"
+        },
+        {
+            title: "Football Glory",
+            desc: "Fast-paced matches, cheering crowds, and legendary goals that defined PCMT football culture.",
+            video: "https://www.pexels.com/download/video/15905220/"
+        },
+        {
+            title: "Sports Day Spirit",
+            desc: "Annual sports day filled with energy, competition, and unforgettable student achievements.",
+            video: "https://www.pexels.com/download/video/37517204/"
+        }
+    ];
+
+    let index = 0;
+
+    const title = document.getElementById("sport-title");
+    const desc = document.getElementById("sport-desc");
+    const video = document.querySelector(".bg-video");
+
+    document.getElementById("nextBtn").addEventListener("click", () => {
+
+        index = (index + 1) % sports.length;
+
+        title.style.opacity = 0;
+        desc.style.opacity = 0;
+
+        setTimeout(() => {
+            title.innerText = sports[index].title;
+            desc.innerText = sports[index].desc;
+
+            video.src = sports[index].video;
+            video.load();
+            video.play();
+
+            title.style.opacity = 1;
+            desc.style.opacity = 1;
+        }, 300);
+    });
+
+    const collegeData = [
+    {
+        title: "Computer Lab Memories",
+        desc: "Late-night coding sessions, project submissions, and endless learning in our advanced computer labs.",
+        video: "https://www.pexels.com/download/video/34508543/"
+    },
+    {
+        title: "College Canteen",
+        desc: "Tea breaks, laughter, and unforgettable conversations shared in the bustling canteen.",
+        video: "https://www.pexels.com/download/video/855386/"
+    },
+    {
+        title: "Science & Engineering Labs",
+        desc: "Hands-on experiments, innovation, and discovery across multiple engineering labs.",
+        video: "https://www.pexels.com/download/video/15864645/"
+    },
+    {
+        title: "Common Room Moments",
+        desc: "Relaxation, discussions, and bonding time with friends between classes.",
+        video: "https://www.pexels.com/download/video/32520679/"
+    },
+    {
+        title: "Passout Signature Wall",
+        desc: "A wall filled with signatures, memories, and emotions of every graduating batch.",
+        video: "https://www.pexels.com/download/video/8257215/"
+    }
+];
+
+let cIndex = 0;
+
+const cTitle = document.getElementById("college-title");
+const cDesc = document.getElementById("college-desc");
+const cVideo = document.querySelector(".college-bg");
+
+document.getElementById("collegeNextBtn").addEventListener("click", () => {
+
+    cIndex = (cIndex + 1) % collegeData.length;
+
+    document.querySelector(".college-card").style.opacity = "0.3";
+
+    setTimeout(() => {
+
+        cTitle.innerText = collegeData[cIndex].title;
+        cDesc.innerText = collegeData[cIndex].desc;
+
+        cVideo.src = collegeData[cIndex].video;
+        cVideo.load();
+        cVideo.play();
+
+        document.querySelector(".college-card").style.opacity = "1";
+
+    }, 300);
+});
+</script>
+
+<!-- ================= JS FOR REVEAL ================= -->
+<script>
+    // This ensures your IntersectionObserver picks up the new section
+    const portalSection = document.getElementById('portal');
+    const portalObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('active');
+            else entry.target.classList.remove('active');
+        });
+    }, { threshold: 0.5 });
+
+    portalObserver.observe(portalSection);
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Alumni Image Sphere</title>
+    <!-- Include Hammer.js for gestures -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+    <style>
+        :root {
+            --radius: max(1300px, 100vw);
+            --circ: calc(var(--radius) * 3.14);
+            --segments-x: 37;
+            --segments-y: 37;
+            --sphere-rotation-y: 0;
+            --sphere-rotation-x: 0;
+            --rot-y: calc((360deg / var(--segments-x)) / 2);
+            --rot-x: calc((360deg / var(--segments-y)) / 2);
+            --item-width: calc((var(--circ) / var(--segments-x)));
+            --item-height: calc((var(--circ) / var(--segments-y)));
+            --bg: rgb(235, 235, 235);
+            --item-bg: rgb(225, 225, 225);
+            --gradient-center: rgba(235, 235, 235, 0);
+            --gradient-edge: rgba(235, 235, 235, 0.5);
+            --bg-scrim: rgba(0, 0, 0, 0.4);
+            --gradient: radial-gradient(var(--gradient-center) 65%, var(--gradient-edge) 100%);
+            --gradient-blur: radial-gradient(var(--gradient-center) 70%, var(--gradient-edge) 90%);
+        }
+
+        body, html {
+            padding: 0; margin: 0; width: 100%; height: 100%;
+            background-color: var(--bg); font-family: sans-serif;
+        }
+
+        main {
+            display: flex; width: 100%; height: 100%;
+            justify-content: center; align-items: center;
+            overflow: hidden; touch-action: none;
+        }
+
+        .stage { perspective: calc(var(--radius) * 2); }
+
+        .sphere {
+            transform: translateZ(calc(var(--radius) * -1)) rotateY(var(--sphere-rotation-y)) rotateX(var(--sphere-rotation-x));
+            transform-style: preserve-3d;
+        }
+
+        .overlay {
+            background-image: var(--gradient); position: fixed; inset: 0;
+            z-index: 3; pointer-events: none;
+        }
+
+        .overlay--blur {
+            mask-image: var(--gradient-blur); backdrop-filter: blur(3px);
+            position: fixed; inset: 0; z-index: 3; pointer-events: none;
+        }
+
+        .item {
+            --item-size-x: 2; --item-size-y: 2;
+            width: calc(var(--item-width) * var(--item-size-x));
+            height: calc(var(--item-height) * var(--item-size-y));
+            position: absolute; transform-origin: 50% 50%;
+            inset: -999px; margin: auto;
+            backface-visibility: hidden; transform-style: preserve-3d;
+            transition: transform 300ms;
+            transform: rotateY(calc(var(--rot-y) * (var(--offset-x) + ((var(--item-size-x) - 1) / 2)) + var(--rot-y-delta, 0deg)))
+                       rotateX(calc(calc(var(--rot-x) * (var(--offset-y) - ((var(--item-size-y) - 1) / 2))) + var(--rot-x-delta, 0deg)))
+                       translateZ(var(--radius));
+        }
+
+        .item__image {
+            position: absolute; inset: 10px;
+            border-radius: 12px; background-color: var(--item-bg);
+            overflow: hidden; backface-visibility: hidden;
+            transition: transform 300ms; transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .item__image img {
+            object-fit: cover; width: 100%; height: 100%;
+            pointer-events: none; backface-visibility: hidden;
+        }
+
+        .viewer {
+            position: absolute; inset: 0; z-index: 9;
+            pointer-events: none; display: flex;
+            align-items: center; justify-content: center; padding: 100px;
+        }
+        .viewer .frame { height: 100%; aspect-ratio: 1; display: flex; }
+        .viewer .scrim {
+            position: absolute; inset: 0; background-color: var(--bg-scrim);
+            opacity: 0; transition: opacity 300ms; backdrop-filter: blur(3px);
+        }
+        [data-enlarging="true"] .scrim { opacity: 1; pointer-events: all; }
+
+        .enlarge {
+            position: absolute; z-index: 10; border-radius: 32px;
+            overflow: hidden; transition: opacity 300ms;
+        }
+        .enlarge img { width: 100%; height: 100%; object-fit: cover; }
+
+        .page-header{
+    text-align:center;
+    padding:20px 10px;
+    position:absolute;
+    top:0;
+    width:100%;
+    z-index:10;
+    color:#222;
+}
+
+.page-header h1{
+    margin:0;
+    font-size:26px;
+}
+
+/* BUTTON OVER IMAGE */
+.img-actions{
+    position:absolute;
+    bottom:8px;
+    left:8px;
+    right:8px;
+    display:flex;
+    justify-content:space-between;
+    opacity:0;
+    transition:0.3s;
+}
+
+.item__image:hover .img-actions{
+    opacity:1;
+}
+
+.btn{
+    background:rgba(0,0,0,0.6);
+    color:#fff;
+    border:none;
+    padding:6px 10px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:14px;
+    text-decoration:none;
+    backdrop-filter: blur(4px);
+}
+    </style>
+</head>
+<body>
+
+<main>
+    <!-- TITLE SECTION FIXED ABOVE STAGE -->
+    <div id="title-section" style="position: absolute; top: 20px; width: 100%; text-align: center; z-index: 10; font-family: sans-serif; pointer-events: none;">
+        <h1 style="margin:0; font-size:28px; font-weight:600; color:red">
+            🎓 Alumni Memory Sphere
+        </h1>
+        <p style="margin:5px 0; opacity:0.7; color:blue">
+            Drag to rotate • Tap images to explore • Find alumni memories easily
+        </p>
+    </div>
+
+    <!-- STAGE START -->
+    <div class="stage">
+        <div class="sphere">
+            <div th:each="alumnus : ${alumni}"
+                 class="item"
+                 th:data-src="${alumnus.imageUrl}"
+                 th:style="|--offset-x: ${alumnus.gridX}; --offset-y: ${alumnus.gridY};|"
+                 data-item-size="2,2">
+
+                <div class="item__image">
+
+                    <img th:src="${alumnus.imageUrl}" draggable="false"/>
+
+                    <!-- BUTTONS OVER IMAGE -->
+                    <div class="img-actions">
+
+                        <button class="btn full-btn"
+                                th:attr="data-src=${alumnus.imageUrl}">
+                            ⛶
+                        </button>
+
+                        <a class="btn download-btn"
+                           th:href="${alumnus.imageUrl}"
+                           download>
+                            ⬇
+                        </a>
+
+                        <button class="btn detail-btn"
+                                th:attr="data-src=${alumnus.imageUrl}">
+                            ℹ
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Fallback -->
+            <div th:if="${#lists.isEmpty(alumni)}" class="item" data-src="https://assets.codepen.io/215059/photo-1594149221886-eb520f85ad25.jpg" style="--offset-x: -37; --offset-y: -4;" data-item-size="2,2">
+                <div class="item__image"><img src="https://assets.codepen.io/215059/photo-1594149221886-eb520f85ad25.jpg" draggable="false"/></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay"></div>
+    <div class="overlay overlay--blur"></div>
+
+    <div class="viewer">
+        <div class="scrim"></div>
+        <div class="frame"></div>
+    </div>
+</main>
+
+<script>
+    const SphereApp = () => {
+        const MAX_POLAR_ROT_DEG = 3;
+        const PAN_SENSITIVTY = 18;
+        const TRANSITION_DUR_MS = 300;
+
+        const DOM = {
+            sphere: document.querySelector(".sphere"),
+            main: document.querySelector("main"),
+            items: document.querySelectorAll(".item__image"),
+            frame: document.querySelector(".frame"),
+            viewer: document.querySelector(".viewer"),
+            scrim: document.querySelector(".scrim"),
+        };
+
+        const state = {
+            rotation: { x: 0, y: 0 },
+            startRotation: { x: 0, y: 0 },
+            inertiaFrame: null,
+            cancelTap: false,
+        };
+
+        const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
+
+        const applyTransform = () => {
+            DOM.sphere.style.transform = `translateZ(calc(var(--radius) * -1)) rotateX(${state.rotation.x}deg) rotateY(${state.rotation.y}deg)`;
+        };
+
+        const stopInertia = () => {
+            if (state.inertiaFrame) cancelAnimationFrame(state.inertiaFrame);
+        };
+
+        const startInertia = (velocityX, velocityY) => {
+            let vx = velocityX * 100; let vy = velocityY * 100;
+            const friction = 0.92;
+            const step = () => {
+                vx *= friction; vy *= friction;
+                if (Math.abs(vx) < 0.1 && Math.abs(vy) < 0.1) return;
+                state.rotation.x = clamp(state.rotation.x - vy / 200, -MAX_POLAR_ROT_DEG, MAX_POLAR_ROT_DEG);
+                state.rotation.y += vx / 200;
+                applyTransform();
+                state.inertiaFrame = requestAnimationFrame(step);
+            };
+            stopInertia();
+            state.inertiaFrame = requestAnimationFrame(step);
+        };
+
+        const setupGestures = () => {
+            const hammer = new Hammer(DOM.main);
+            hammer.get("pan").set({ direction: Hammer.DIRECTION_ALL });
+            hammer.on("panstart", () => {
+                state.cancelTap = true;
+                stopInertia();
+                state.startRotation = { ...state.rotation };
+            });
+            hammer.on("panmove", ({ deltaX, deltaY }) => {
+                state.rotation.y = state.startRotation.y + deltaX / PAN_SENSITIVTY;
+                state.rotation.x = clamp(state.startRotation.x - deltaY / PAN_SENSITIVTY, -MAX_POLAR_ROT_DEG, MAX_POLAR_ROT_DEG);
+                applyTransform();
+            });
+            hammer.on("panend", ({ velocityX, velocityY }) => {
+                setTimeout(() => (state.cancelTap = false), 100);
+                startInertia(velocityX, velocityY);
+            });
+        };
+
+        const setupTaps = () => {
+            const getRotationXY = (el) => {
+                const style = window.getComputedStyle(el);
+                const matrix = new WebKitCSSMatrix(style.transform);
+                const rotateX = Math.asin(-matrix.m32) * (180 / Math.PI);
+                const rotateY = Math.atan2(matrix.m31, matrix.m33) * (180 / Math.PI);
+                return { rotateX, rotateY };
+            };
+
+            const handleClickScrim = () => {
+                const el = document.querySelector('[data-focused="true"]');
+                const parentEl = el.parentNode;
+                document.querySelector(".item__image--reference")?.remove();
+                document.querySelector(".enlarge")?.remove();
+                parentEl.style.setProperty("--rot-y-delta", `0deg`);
+                parentEl.style.setProperty("--rot-x-delta", `0deg`);
+                el.style.transform = ``;
+                setTimeout(() => {
+                    document.body.setAttribute("data-enlarging", "false");
+                    el.setAttribute("data-focused", "false");
+                }, TRANSITION_DUR_MS);
+            };
+
+            const handleClick = (e) => {
+                if (state.cancelTap) return;
+                const el = e.currentTarget;
+                const parentEl = el.parentNode;
+                el.setAttribute("data-focused", "true");
+
+                const parentRot = getRotationXY(parentEl);
+                const sphereRot = state.rotation;
+
+                let rotY = -(parentRot.rotateY + sphereRot.y) % 360;
+                if (rotY < -180) rotY += 360;
+                parentEl.style.setProperty("--rot-y-delta", `${rotY}deg`);
+                parentEl.style.setProperty("--rot-x-delta", `${-parentRot.rotateX - sphereRot.x}deg`);
+
+                const ref = document.createElement("div");
+                ref.classList.add("item__image", "item__image--reference");
+                ref.style.opacity = 0;
+                parentEl.appendChild(ref);
+
+                const sourceRect = ref.getBoundingClientRect();
+                const targetRect = DOM.frame.getBoundingClientRect();
+                const deltaScale = Math.min(targetRect.width / sourceRect.width, targetRect.height / sourceRect.height);
+
+                el.style.transform = `scale(${deltaScale}) translateZ(30px)`;
+
+                const img = document.createElement("img");
+                img.src = parentEl.getAttribute("data-src");
+
+                DOM.scrim.addEventListener("click", handleClickScrim, { once: true });
+
+                setTimeout(() => {
+                    const rect = el.getBoundingClientRect();
+                    const enlargementEl = document.createElement("div");
+                    enlargementEl.classList.add("enlarge");
+                    Object.assign(enlargementEl.style, {
+                        top: rect.top + "px", left: rect.left + "px",
+                        width: rect.width + "px", height: rect.height + "px"
+                    });
+                    enlargementEl.appendChild(img);
+                    DOM.viewer.appendChild(enlargementEl);
+                    document.body.setAttribute("data-enlarging", "true");
+                }, TRANSITION_DUR_MS);
+            };
+
+            DOM.items.forEach(item => item.addEventListener("click", handleClick));
+        };
+
+        return { init: () => { setupGestures(); setupTaps(); } };
+    };
+
+    SphereApp().init();
+</script>
+
+<script>
+    document.querySelectorAll(".full-btn").forEach(btn=>{
+        btn.addEventListener("click",(e)=>{
+            e.stopPropagation();
+            const src = btn.getAttribute("data-src");
+            window.open(src, "_blank");
+        });
+    });
+
+    document.querySelectorAll(".detail-btn").forEach(btn=>{
+        btn.addEventListener("click",(e)=>{
+            e.stopPropagation();
+            const src = btn.getAttribute("data-src");
+            alert("Image Details:\n" + src);
+        });
+    });
+</script>
+</body>
+</html>

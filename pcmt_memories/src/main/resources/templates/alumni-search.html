@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Victoria College | Fitness & Education</title>
+
+    <!-- Google Fonts: Montserrat for bold text, Satisfy for script text -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Satisfy&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 for Layout -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- 3D Model Viewer Component -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
+
+
+
+    <style>
+        :root {
+            --primary-teal: #87C7BE; /* Light teal background from image */
+            --dark-green: #0D3B36;   /* Dark green text color from image */
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--primary-teal);
+            color: var(--dark-green);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* SECTION 1: HERO & LOGO */
+        .hero-section {
+            padding: 60px 20px;
+            text-align: center;
+            background-color: var(--primary-teal);
+        }
+
+        .logo-container img {
+            max-width: 300px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .hero-title {
+            font-weight: 900;
+            font-size: 4rem;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            margin-bottom: 0;
+        }
+
+        .hero-subtitle {
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+        }
+
+        .hero-tagline {
+            font-family: 'Satisfy', cursive;
+            font-size: 2.5rem;
+            margin-top: 10px;
+        }
+
+        /* SECTION 2: 3D MODEL SECTION */
+        .model-section {
+            background-color: var(--white);
+            padding: 80px 0;
+            border-radius: 50px 50px 0 0; /* Modern curved edge */
+        }
+
+        model-viewer {
+            width: 100%;
+            height: 500px;
+            background-color: #f8f9fa;
+            border-radius: 20px;
+            outline: none;
+        }
+
+        .details-card {
+            padding: 40px;
+        }
+
+        .accent-bar {
+            width: 60px;
+            height: 5px;
+            background-color: var(--primary-teal);
+            margin-bottom: 20px;
+        }
+
+        /* SECTION 3: SEARCH SECTION */
+        .search-section {
+            background-color: var(--dark-green);
+            color: var(--white);
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .search-bar-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .custom-search-input {
+            border-radius: 30px 0 0 30px !important;
+            padding: 15px 25px;
+            border: none;
+        }
+
+        .custom-search-btn {
+            border-radius: 0 30px 30px 0 !important;
+            background-color: var(--primary-teal);
+            color: var(--dark-green);
+            font-weight: bold;
+            padding: 0 30px;
+            border: none;
+        }
+
+        .custom-search-btn:hover {
+            background-color: #76b1a9;
+        }
+
+        footer {
+            padding: 20px;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+
+<!-- SECTION 1: HEADER/HERO -->
+<header class="hero-section">
+    <div class="container">
+        <div class="logo-container">
+            <!-- Using the round logo you provided -->
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRl0bDw6aS8mYFoeFYNi5pannQOYp_W0pdpkg&s" alt="Victoria Logo">
+        </div>
+        <p class="mb-0">ESTD 2003</p>
+        <h1 class="hero-title">PCMT</h1>
+        <h2 class="hero-subtitle">COLLEGE CAMPUS</h2>
+        <p class="hero-tagline">Excellence for Everyone</p>
+    </div>
+</header>
+
+<!-- SECTION 2: 3D MODEL SHOWCASE -->
+<section class="model-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <!-- 3D Model View -->
+            <div class="col-lg-7">
+                <model-viewer
+                        th:src="@{/3d_models/pcmt.glb}"
+                        alt="3D Model of Victoria College"
+                        auto-rotate
+                        camera-controls
+                        shadow-intensity="1"
+                        exposure="1.2"
+                        environment-image="neutral"
+                        ar
+                        touch-action="pan-y"
+                        camera-orbit="0deg 85deg 2.0m"
+                        style="width:100%; height:500px; border-radius:20px;">
+                </model-viewer>
+            </div>
+            <!-- Description -->
+            <div class="col-lg-5">
+                <div class="details-card">
+                    <div class="accent-bar"></div>
+                    <h2 class="fw-bold mb-4">The Campus Experience</h2>
+                    <p class="text-muted">Explore our state-of-the-art facilities in high-fidelity 3D. Founded in 2003, our college combines classical architectural beauty with modern fitness and educational infrastructure.</p>
+                    <ul class="list-unstyled mt-4">
+                        <li class="mb-2"><strong>✓ Olympic Size Gymnasium</strong></li>
+                        <li class="mb-2"><strong>✓ Historic Dome Library</strong></li>
+                        <li class="mb-2"><strong>✓ Modern Alumni Tech Center</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 3: ALUMNI SEARCH -->
+<section class="search-section">
+    <div class="container">
+        <h2 class="mb-4 text-uppercase fw-bold" style="letter-spacing: 2px;">Find Our Alumni</h2>
+        <p class="mb-5 opacity-75">Connect with graduates from the last two decades of Victoria excellence.</p>
+
+        <div class="search-bar-container">
+            <form th:action="@{/search}" method="get">
+                <div class="input-group mb-3">
+                    <input type="text" name="query" class="form-control custom-search-input" placeholder="Search by name, year, or department..." aria-label="Search">
+                    <button class="btn custom-search-btn" type="submit">SEARCH</button>
+                </div>
+            </form>
+            <div class="mt-3">
+                <small class="text-white-50">Trending: Class of 2003, Fitness Directors, Engineering Dept.</small>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="text-center text-white bg-dark py-3">
+
+    &copy;
+    <span th:text="${T(java.time.LocalDate).now().getYear()}"></span>
+    Victoria College & Fitness. All Rights Reserved.
+
+    <br/>
+
+    <small>
+        Today:
+        <span th:text="${T(java.time.LocalDate).now()}"></span>
+
+        |
+
+        Page Views:
+        <span th:text="${T(java.lang.Math).random() * 9000 + 1000}"></span>
+    </small>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    window.addEventListener("mousemove", (e) => {
+  const color = new THREE.Color(
+    `hsl(${(e.clientX / window.innerWidth) * 360}, 70%, 60%)`
+  );
+
+  scene.traverse((obj) => {
+    if (obj.isMesh) {
+      obj.material.color = color;
+    }
+  });
+});
+</script>
+</body>
+</html>
