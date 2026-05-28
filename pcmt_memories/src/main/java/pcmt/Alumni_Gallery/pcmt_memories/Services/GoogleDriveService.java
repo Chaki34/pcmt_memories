@@ -179,101 +179,43 @@ public class GoogleDriveService {
     }
 
     public List<ImageDTO> getImagesFromFolder(String folderId) {
-
         List<ImageDTO> mediaList = new ArrayList<>();
-
         try {
+            String url = "https://www.googleapis.com/drive/v3/files"
+                    + "?q='" + folderId + "' in parents and trashed=false"
+                    + "&fields=files(id,name,mimeType,thumbnailLink)"
+                    + "&pageSize=100"
+                    + "&key=" + apiKey;
 
-            String url =
-                    "https://www.googleapis.com/drive/v3/files"
-                            + "?q='"
-                            + folderId
-                            + "' in parents and trashed=false"
-                            + "&fields=files(id,name,mimeType)"
-                            + "&pageSize=200"
-                            + "&key="
-                            + apiKey;
-
-            String response =
-                    restTemplate.getForObject(url, String.class);
-
-            JsonNode root =
-                    objectMapper.readTree(response);
-
-            JsonNode files =
-                    root.get("files");
+            String response = restTemplate.getForObject(url, String.class);
+            JsonNode root = objectMapper.readTree(response);
+            JsonNode files = root.get("files");
 
             if (files != null && files.isArray()) {
-
                 for (JsonNode file : files) {
+                    String fileId = file.get("id").asText();
+                    String mimeType = file.get("mimeType").asText();
+                    String type = mimeType.startsWith("video/") ? "video" : "image";
 
-                    String fileId =
-                            file.get("id").asText();
+                    // Use CDN for thumbnails (w500 = 500px width)
+                    String thumbnailUrl = "https://lh3.googleusercontent.com/d/" + fileId + "=w500";
 
-                    String mimeType =
-                            file.get("mimeType").asText();
-
-                    String type =
-                            mimeType.startsWith("video/")
-                                    ? "video"
-                                    : "image";
-
-                    // =========================
-                    // FIXED GOOGLE CDN URLS
-                    // =========================
-
-                    String thumbnailUrl =
-                            "https://lh3.googleusercontent.com/d/"
-                                    + fileId
-                                    + "=w500";
-
-                    String fullImageUrl =
-                            "https://lh3.googleusercontent.com/d/"
-                                    + fileId
-                                    + "=w2000";
-
-                    // VIDEO PREVIEW
+                    String fullImageUrl;
                     if (type.equals("video")) {
-
-                        // VIDEO THUMBNAIL
-                        thumbnailUrl =
-                                "https://drive.google.com/uc?export=view&id="
-                                        + fileId;
-
-                        // VIDEO PLAYER
-                        fullImageUrl =
-                                "https://drive.google.com/file/d/"
-                                        + fileId
-                                        + "/preview";
+                        // Videos MUST use the preview link in an iframe
+                        fullImageUrl = "https://drive.google.com/file/d/" + fileId + "/preview";
+                    } else {
+                        // FIX: Use the high-res CDN link (w2048) instead of the 'uc?export=view' link.
+                        // This bypasses "Tracking Prevention" blocks.
+                        fullImageUrl = "https://lh3.googleusercontent.com/d/" + fileId + "=w2048";
                     }
 
-                    ImageDTO dto =
-                            new ImageDTO(
-                                    thumbnailUrl,
-                                    fullImageUrl,
-                                    type,
-                                    0,
-                                    0
-                            );
-
-                    mediaList.add(dto);
-
-                    System.out.println("--------------------------------");
-                    System.out.println("TYPE : " + type);
-                    System.out.println("THUMBNAIL : " + thumbnailUrl);
-                    System.out.println("FULL URL : " + fullImageUrl);
+                    mediaList.add(new ImageDTO(thumbnailUrl, fullImageUrl, type, 0, 0));
                 }
             }
-
-            System.out.println("TOTAL MEDIA FOUND : " + mediaList.size());
-
         } catch (Exception e) {
-
-            System.out.println("ERROR FETCHING GOOGLE DRIVE MEDIA");
-
             e.printStackTrace();
         }
-
         return mediaList;
     }
 }

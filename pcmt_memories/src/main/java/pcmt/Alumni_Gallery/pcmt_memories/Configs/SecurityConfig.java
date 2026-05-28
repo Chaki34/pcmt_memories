@@ -24,63 +24,72 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(
-            HttpSecurity http) throws Exception {
-
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-
+                // 1. AUTHENTICATION RULES
                 .authorizeHttpRequests(auth -> auth
-
                         .requestMatchers(
                                 "/",
+                                "/login",
                                 "/alumni-search",
                                 "/gallery/**",
-                                "/search",
+                                "/search/**",
                                 "/3d_models/**",
                                 "/css/**",
                                 "/js/**",
                                 "/musics/**",
-                                "/images/**"
+                                "/images/**",
+                                "/favicon.ico"
                         ).permitAll()
-
-                        .requestMatchers("/admin/**")
-                        .hasRole("ADMIN")
-
-                        .anyRequest()
-                        .authenticated()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .anyRequest().authenticated()
                 )
 
-                .formLogin(form -> form
+                // 2. SECURITY HEADERS (CRITICAL FIX FOR GOOGLE DRIVE)
+                .headers(headers -> headers
+                        .frameOptions(frame -> frame.sameOrigin())
+                        .contentSecurityPolicy(csp -> csp
+                                .policyDirectives("default-src 'self'; " +
+                                        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; " +
+                                        "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; " +
+                                        // Broadened img-src to include all google subdomains
+                                        "img-src 'self' data: https://*.googleusercontent.com https://*.google.com https://drive.google.com https://*.gstatic.com; " +
+                                        "media-src 'self' data: https://drive.google.com https://*.googleusercontent.com; " +
+                                        "frame-src 'self' https://drive.google.com https://www.google.com; " +
+                                        // Added connect-src to allow bootstrap maps and external requests
+                                        "connect-src 'self' https://cdn.jsdelivr.net https://*.googleusercontent.com; " +
+                                        "font-src 'self' https://fonts.gstatic.com;")
+                        )
+                )
 
+                // 3. LOGIN CONFIGURATION
+                .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/admin/dashboard", true)
                         .permitAll()
                 )
 
+                // 4. LOGOUT CONFIGURATION
                 .logout(logout -> logout
                         .logoutSuccessUrl("/")
+                        .deleteCookies("JSESSIONID")
+                        .invalidateHttpSession(true)
                         .permitAll()
-                );
+                )
+
+                // 5. CSRF (Optional: keep enabled for admin forms)
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/logout", "/login"));
 
         return http.build();
     }
 
     @Bean
-    public UserDetailsService userDetailsService(
-            PasswordEncoder passwordEncoder) {
-
+    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
         UserDetails admin = User.builder()
-
                 .username("admin")
-
-                .password(
-                        passwordEncoder.encode("admin123")
-                )
-
+                .password(passwordEncoder.encode("admin123"))
                 .roles("ADMIN")
-
                 .build();
-
         return new InMemoryUserDetailsManager(admin);
     }
 

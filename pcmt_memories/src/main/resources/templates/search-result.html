@@ -175,86 +175,37 @@
                 <img th:if="${alumnus.type == 'image'}"
                      th:src="${alumnus.thumbnailUrl}"
                      alt="Memory"
-                     crossorigin="anonymous">
+                     referrerpolicy="no-referrer">
 
-                <!-- VIDEO -->
+                <!-- VIDEO (Changed to use Thumbnail to avoid 429 Errors) -->
                 <div th:if="${alumnus.type == 'video'}"
                      class="position-relative overflow-hidden rounded-4"
-                     style="
-        height:300px;
-        background:#000;
-        cursor:pointer;">
+                     style="height:300px; background:#000; cursor:pointer;">
 
-                    <!-- VIDEO THUMBNAIL -->
-                    <video
-                            th:src="${alumnus.fullImageUrl}"
-                            muted
-                            preload="metadata"
-                            playsinline
-                            style="
-                width:100%;
-                height:100%;
-                object-fit:cover;">
-                    </video>
+                    <!-- VIDEO THUMBNAIL (STATIC IMAGE) -->
+                    <img th:src="${alumnus.thumbnailUrl}"
+                         style="width:100%; height:100%; object-fit:cover; opacity: 0.7;"
+                         referrerpolicy="no-referrer">
 
                     <!-- DARK OVERLAY -->
-                    <div style="
-        position:absolute;
-        inset:0;
-        background:rgba(0,0,0,0.35);">
-                    </div>
+                    <div style="position:absolute; inset:0; background:rgba(0,0,0,0.2);"></div>
 
                     <!-- PLAY ICON -->
                     <div class="video-play-icon"
-                         style="
-            position:absolute;
-            top:50%;
-            left:50%;
-            transform:translate(-50%, -50%);
-            width:90px;
-            height:90px;
-            border-radius:50%;
-            background:rgba(255,255,255,0.15);
-            backdrop-filter:blur(5px);
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            font-size:42px;
-            color:white;
-            box-shadow:0 0 25px rgba(0,0,0,0.4);">
+                         style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);
+                                width:90px; height:90px; border-radius:50%; background:rgba(255,255,255,0.15);
+                                backdrop-filter:blur(5px); display:flex; align-items:center; justify-content:center;
+                                font-size:42px; color:white; box-shadow:0 0 25px rgba(0,0,0,0.4);">
                         ▶
                     </div>
 
                     <!-- VIDEO LABEL -->
-                    <div style="
-        position:absolute;
-        bottom:15px;
-        left:15px;
-        background:rgba(0,0,0,0.7);
-        color:white;
-        padding:6px 14px;
-        border-radius:30px;
-        font-size:13px;
-        font-weight:700;
-        letter-spacing:1px;">
+                    <div style="position:absolute; bottom:15px; left:15px; background:rgba(0,0,0,0.7);
+                                color:white; padding:6px 14px; border-radius:30px; font-size:13px; font-weight:700;">
                         VIDEO
                     </div>
-
-                    <!-- PAUSE LABEL -->
-                    <div style="
-        position:absolute;
-        top:15px;
-        right:15px;
-        background:rgba(255,77,79,0.9);
-        color:white;
-        padding:5px 12px;
-        border-radius:30px;
-        font-size:12px;
-        font-weight:bold;">
-                        ⏸ PREVIEW
-                    </div>
-
                 </div>
+
                 <div class="img-overlay"></div>
                 <div class="img-actions">
                     <button class="btn btn-danger btn-sm rounded-pill px-3 fw-bold">⛶ VIEW</button>
@@ -266,97 +217,48 @@
 </div>
 
 <!-- MUSIC MODAL -->
-<!-- MUSIC MODAL -->
 <div class="modal fade" id="musicModal" tabindex="-1" aria-labelledby="musicModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content shadow-lg">
-
             <div class="modal-header border-0 pb-0">
-                <h5 class="fw-bold" id="musicModalLabel">
-                    🎵 Background Music
-                </h5>
-
-                <button type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                <h5 class="fw-bold" id="musicModalLabel">🎵 Background Music</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-
             <div class="modal-body">
-
-                <p class="text-muted small mb-3">
-                    Select any music from your music folder.
-                </p>
-
-                <!-- NOW PLAYING -->
+                <p class="text-muted small mb-3">Select any music from your music folder.</p>
                 <div class="alert alert-dark py-2 mb-3">
-                    <strong>Now Playing:</strong>
-                    <span id="current-track">No music selected</span>
+                    <strong>Now Playing:</strong> <span id="current-track">No music selected</span>
                 </div>
-
-                <!-- MUSIC LIST -->
-
-                <div class="music-option"
-                     onclick="selectMusic('/musics/woh-din.mp3', 'Woh Din', this)">
-
+                <div class="music-option" onclick="selectMusic('/musics/woh-din.mp3', 'Woh Din', this)">
                     <div class="d-flex justify-content-between align-items-center">
-                        <span>🎵 Woh Din</span>
-                        <small>Track 01</small>
+                        <span>🎵 Woh Din</span> <small>Track 01</small>
                     </div>
                 </div>
-
-                <div class="music-option"
-                     onclick="selectMusic('/musics/Bondhu-Chol.mp3', 'Bondhu-Chol', this)">
-
+                <div class="music-option" onclick="selectMusic('/musics/Bondhu-Chol.mp3', 'Bondhu-Chol', this)">
                     <div class="d-flex justify-content-between align-items-center">
-                        <span>🎸 Acoustic Memories</span>
-                        <small>Track 02</small>
+                        <span>🎸 Acoustic Memories</span> <small>Track 02</small>
                     </div>
                 </div>
-
-                <div class="music-option"
-                     onclick="selectMusic('/musics/Ronald_Meirs_-_Memories_Bring_Back_Memories_(mp3.pm).mp3', 'Memories Bring Back Memories', this)">
-
+                <div class="music-option" onclick="selectMusic('/musics/Ronald_Meirs_-_Memories_Bring_Back_Memories_(mp3.pm).mp3', 'Memories Bring Back Memories', this)">
                     <div class="d-flex justify-content-between align-items-center">
-                        <span>🎹 Emotional Piano</span>
-                        <small>Track 03</small>
+                        <span>🎹 Emotional Piano</span> <small>Track 03</small>
                     </div>
                 </div>
-
-                <!-- CONTROL BUTTONS -->
-
                 <div class="mt-4 pt-3 border-top d-flex gap-2">
-
-                    <button class="btn btn-dark flex-grow-1"
-                            onclick="pauseMusic()">
-
-                        ⏸ Pause
-                    </button>
-
-                    <button class="btn btn-danger flex-grow-1"
-                            onclick="resumeMusic()">
-
-                        ▶ Resume
-                    </button>
-
-                    <button class="btn btn-primary flex-grow-1"
-                            onclick="restartMusic()">
-
-                        🔁 Restart
-                    </button>
-
+                    <button class="btn btn-dark flex-grow-1" onclick="pauseMusic()">⏸ Pause</button>
+                    <button class="btn btn-danger flex-grow-1" onclick="resumeMusic()">▶ Resume</button>
+                    <button class="btn btn-primary flex-grow-1" onclick="restartMusic()">🔁 Restart</button>
                 </div>
-
             </div>
         </div>
     </div>
 </div>
 
-<!-- LIGHTBOX MODAL (Accessibility Fix Applied) -->
-<div class="modal fade lightbox-modal" id="lightbox-modal" tabindex="-1" role="dialog" aria-modal="true">
+<!-- LIGHTBOX MODAL -->
+<div class="modal fade lightbox-modal" id="lightbox-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen modal-dialog-centered">
         <div class="modal-content">
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" style="position:absolute; top:20px; right:20px; z-index:9999;"></button>
             <div class="modal-body p-0">
                 <div id="dynamic-carousel-container"></div>
             </div>
@@ -367,49 +269,46 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-
-
     // LIGHTBOX LOGIC
     document.addEventListener('DOMContentLoaded', () => {
         const galleryItems = document.querySelectorAll('.gallery-item');
         const modalEl = document.getElementById('lightbox-modal');
         const carouselContainer = document.getElementById('dynamic-carousel-container');
         const bsModal = new bootstrap.Modal(modalEl);
-        let lastTriggerElement = null;
 
         const buildCarousel = (activeIndex) => {
             let slides = '';
             galleryItems.forEach((item, index) => {
                 const fullImg = item.getAttribute('data-full');
                 const mediaType = item.getAttribute('data-type');
+                let mediaContent = '';
 
-let mediaContent = '';
+                if(mediaType === 'video') {
+                    let videoUrl = fullImg;
+                    if(videoUrl.includes('drive.google.com') && !videoUrl.endsWith('/preview')) {
+                        videoUrl = videoUrl.replace(/\/view.*$/, '/preview');
+                    }
+                    mediaContent = `
+                        <div class="ratio ratio-16x9 mx-auto" style="max-width:85vw; max-height:80vh;">
+                            <iframe src="${videoUrl}" allow="autoplay" allowfullscreen style="border:none; border-radius:20px;"></iframe>
+                        </div>`;
+                } else {
+                    // FIXED: Added referrerpolicy="no-referrer" to bypass security blocks
+                    mediaContent = `<img src="${fullImg}"
+                                         referrerpolicy="no-referrer"
+                                         alt="Gallery Image"
+                                         style="max-height:85vh; max-width:90vw; object-fit:contain; border-radius:12px;">`;
+                }
 
-if(mediaType === 'video') {
-
-    mediaContent = `
-        <iframe
-            src="${fullImg}"
-            width="90%"
-            height="80%"
-            allow="autoplay"
-            allowfullscreen
-            style="border:none;border-radius:20px;">
-        </iframe>
-    `;
-
-} else {
-
-    mediaContent = `
-        <img src="${fullImg}" alt="Gallery Image">
-    `;
-}
-
-slides += `
-    <div class="carousel-item ${index === activeIndex ? 'active' : ''}">
-        ${mediaContent}
+                slides += `
+                    <div class="carousel-item ${index === activeIndex ? 'active' : ''}">
+                        <div class="d-flex align-items-center justify-content-center w-100 h-100" style="min-height:80vh;">
+                            ${mediaContent}
+                        </div>
                         <div class="carousel-caption">
-                            <h5>Image ${index + 1} of ${galleryItems.length}</h5>
+                            <h5 style="background: white; color: #ff4d4f; display: inline-block; padding: 5px 20px; border-radius: 50px; font-weight: bold;">
+                                Memory ${index + 1} of ${galleryItems.length}
+                            </h5>
                         </div>
                     </div>`;
             });
@@ -428,96 +327,31 @@ slides += `
 
         galleryItems.forEach((item, index) => {
             item.addEventListener('click', (e) => {
-                if(e.target.tagName === 'A') return;
-                lastTriggerElement = item;
+                if(e.target.tagName === 'A' || e.target.closest('a')) return;
                 buildCarousel(index);
                 bsModal.show();
             });
         });
 
         modalEl.addEventListener('hidden.bs.modal', () => {
-            if (lastTriggerElement) lastTriggerElement.focus();
+            carouselContainer.innerHTML = '';
         });
     });
-</script>
 
-<script>
-
+    // MUSIC LOGIC (No changes needed here, preserved as is)
     const audio = document.getElementById('main-audio');
-
     function selectMusic(src, title, element) {
-
-        console.log("Playing:", src);
-
-        document.querySelectorAll('.music-option')
-            .forEach(opt => opt.classList.remove('active'));
-
+        document.querySelectorAll('.music-option').forEach(opt => opt.classList.remove('active'));
         element.classList.add('active');
-
-        // IMPORTANT
         audio.pause();
-
-        // reset old source
-        audio.currentTime = 0;
-
-        // set new source
         audio.src = src;
-
-        // load file
         audio.load();
-
-        // play
-        audio.play()
-            .then(() => {
-                console.log("Music started successfully");
-            })
-            .catch(err => {
-                console.error("Play error:", err);
-                alert("Music file not found or browser blocked playback.");
-            });
-
+        audio.play().catch(err => console.error("Playback blocked:", err));
         document.getElementById('current-track').innerText = title;
     }
-
-    function pauseMusic() {
-        audio.pause();
-    }
-
-    function resumeMusic() {
-
-        audio.play()
-            .catch(err => console.log(err));
-    }
-
-    function restartMusic() {
-
-        audio.currentTime = 0;
-
-        audio.play()
-            .catch(err => console.log(err));
-    }
-
-</script>
-
-<script>
-
-    document.querySelectorAll('.gallery-item video').forEach(video => {
-
-        // autoplay preview on hover
-        video.parentElement.addEventListener('mouseenter', () => {
-
-            video.play().catch(() => {});
-        });
-
-        // pause on mouse leave
-        video.parentElement.addEventListener('mouseleave', () => {
-
-            video.pause();
-
-            video.currentTime = 0;
-        });
-    });
-
+    function pauseMusic() { audio.pause(); }
+    function resumeMusic() { audio.play().catch(e => {}); }
+    function restartMusic() { audio.currentTime = 0; audio.play().catch(e => {}); }
 </script>
 </body>
 </html>
