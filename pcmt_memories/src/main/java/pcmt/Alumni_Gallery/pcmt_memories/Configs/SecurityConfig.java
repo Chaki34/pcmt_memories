@@ -1,7 +1,6 @@
 package pcmt.Alumni_Gallery.pcmt_memories.Configs;
 
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -31,6 +30,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/",
                                 "/login",
+                                "/register",
                                 "/alumni-search",
                                 "/gallery/**",
                                 "/search/**",
@@ -80,7 +80,11 @@ public class SecurityConfig {
                 )
 
                 // 5. CSRF (Optional: keep enabled for admin forms)
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/logout", "/login"));
+                .csrf(csrf -> csrf
+                        .csrfTokenRepository(
+                                org.springframework.security.web.csrf.CookieCsrfTokenRepository.withHttpOnlyFalse()
+                        )
+                );
 
         return http.build();
     }

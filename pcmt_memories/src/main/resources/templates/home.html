@@ -642,141 +642,167 @@
     </style>
 
     <!-- ================= CSS FOR ACCESS SECTION ================= -->
+
+
+
     <style>
-        .access-section {
-            height: 100vh;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            background: #050816; /* Deep dark theme */
-            scroll-snap-align: start;
+        /* ================= ALUMNI REGISTRATION (OFFICESPACE UI) ================= */
+.registration-section {
+    height: 100vh;
+    width: 100%;
+    background: #2d2d2d; /* Matching the image's dark gray */
+    display: flex;
+    flex-direction: column;
+    padding: 60px 8% 20px 8%;
+    position: relative;
+    color: white;
+    scroll-snap-align: start;
+    transition: all 1s ease;
+}
 
-            /* Reveal animation from previous UI */
-            transition: opacity 1s ease, transform 1s cubic-bezier(0.4, 0, 0.2, 1);
-            opacity: 0;
-            transform: scale(0.95);
-        }
+.reg-top-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 60px;
+}
 
-        .access-section.active {
-            opacity: 1;
-            transform: scale(1);
-        }
+.reg-brand-side { width: 40%; }
+.reg-brand-logo {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.reg-brand-logo span { color: #ff4d29; /* Orange Dot/Icon */ }
+.reg-brand-tagline {
+    font-size: 14px;
+    color: #b1b1b1;
+    line-height: 1.6;
+    max-width: 300px;
+}
 
-        .access-bg-overlay {
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at center, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
-            z-index: 1;
-        }
+/* Right Side Heading */
+.reg-form-side { width: 50%; }
+.reg-form-side .mini-tag {
+    color: #ff4d29;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 10px;
+}
+.reg-form-side h2 {
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 30px;
+}
 
-        .access-container {
-            display: flex;
-            gap: 40px;
-            z-index: 10;
-            max-width: 1200px;
-            width: 90%;
-            padding: 20px;
-        }
+/* Three Column Links Section */
+.reg-links-row {
+    display: flex;
+    gap: 60px;
+    margin-top: 20px;
+}
+.link-group h4 {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: white;
+}
+.link-group ul { list-style: none; }
+.link-group ul li { margin-bottom: 10px; }
+.link-group ul li a {
+    color: #b1b1b1;
+    text-decoration: none;
+    font-size: 13px;
+    transition: 0.3s;
+}
+.link-group ul li a:hover { color: white; }
 
-        /* THE PORTAL CARDS */
-        .portal-card {
-            flex: 1;
-            padding: 60px 40px;
-            border-radius: 30px;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+/* The Stylized Form */
+.alumni-form {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+}
+.reg-input-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+.alumni-form input {
+    width: 100%;
+    padding: 18px 25px;
+    border-radius: 50px;
+    border: none;
+    background: white;
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+    outline: none;
+}
+.reg-submit-btn {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    bottom: 5px;
+    width: 50px;
+    height: 50px;
+    background: #ff4d29;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
 
-        .portal-card:hover {
-            transform: translateY(-15px);
-            background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
 
-        /* ICONS */
-        .portal-icon {
-            font-size: 60px;
-            margin-bottom: 25px;
-            color: #8ec5fc;
-            filter: drop-shadow(0 10px 15px rgba(142, 197, 252, 0.3));
-        }
+/* Character Illustration Placement */
+.illustration-container {
+    position: absolute;
+    bottom: 0;
+    right: 5%;
+    width: 450px;
+    pointer-events: none;
+    z-index: 1; /* reduce overlap issues */
+}
+.illustration-container img {
+    width: 100%;
+    filter: drop-shadow(0px 10px 20px rgba(0,0,0,0.3));
+}
 
-        .portal-tag {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: rgba(255, 255, 255, 0.5);
-            font-weight: 700;
-            margin-bottom: 15px;
-            display: block;
-        }
+.bottom-footer-line {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
 
-        .portal-title {
-            font-size: 36px;
-            font-weight: 800;
-            color: white;
-            margin-bottom: 20px;
-            font-family: 'Poppins', sans-serif;
-        }
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
 
-        .portal-desc {
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.8;
-            font-size: 16px;
-            margin-bottom: 40px;
-        }
+    padding: 20px 0;
+    border-top: 1px solid rgba(255,255,255,0.1);
 
-        /* PORTAL BUTTONS */
-        .portal-btn {
-            display: inline-block;
-            padding: 16px 40px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 16px;
-            transition: 0.4s;
-        }
+    font-size: 12px;
+    color: #777;
 
-        /* Admin Red Button */
-        .btn-admin {
-            background: #ff3e3e; /* Red as requested earlier */
-            color: white;
-            box-shadow: 0 10px 20px rgba(255, 62, 62, 0.3);
-        }
+    z-index: 2; /* above background, below main content if needed */
+}
 
-        .btn-admin:hover {
-            background: #ff5555;
-            box-shadow: 0 15px 30px rgba(255, 62, 62, 0.5);
-            transform: scale(1.05);
-        }
-
-        /* Alumni Blue Button */
-        .btn-student {
-            background: linear-gradient(135deg, #2563eb, #60a5fa);
-            color: white;
-            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
-        }
-
-        .btn-student:hover {
-            background: linear-gradient(135deg, #3b82f6, #93c5fd);
-            box-shadow: 0 15px 30px rgba(37, 99, 235, 0.5);
-            transform: scale(1.05);
-        }
-
-        /* Mobile View */
-        @media (max-width: 900px) {
-            .access-container { flex-direction: column; }
-            .portal-card { padding: 40px 30px; }
-            .portal-title { font-size: 28px; }
-        }
+@media (max-width: 1000px) {
+    .registration-section { height: auto; padding-bottom: 50px; }
+    .reg-top-row { flex-direction: column; gap: 40px; }
+    .reg-brand-side, .reg-form-side { width: 100%; }
+    .illustration-container { display: none; }
+}
     </style>
 </head>
 <body>
@@ -928,42 +954,112 @@
 
 </section>
 
-<!-- ================= ACCESS / PORTAL SECTION ================= -->
-<section class="access-section" id="portal">
+<!-- ================= ALUMNI REGISTRATION SECTION ================= -->
+<section class="registration-section" id="register">
 
-    <!-- Subtle Background (Matches the dark alumni theme) -->
-    <div class="access-bg-overlay"></div>
-
-    <div class="access-container">
-
-        <!-- CARD 1: ADMIN PORTAL -->
-        <div class="portal-card admin-gate">
-            <div class="portal-icon">
-                <i class="fa-solid fa-user-shield"></i>
-            </div>
-            <span class="portal-tag">Management</span>
-            <h2 class="portal-title">Admin Portal</h2>
-            <p class="portal-desc">
-                Authorized access for PCMT faculty and association heads to manage the alumni database, events, and communications.
+    <div class="reg-top-row">
+        <!-- Brand Side -->
+        <div class="reg-brand-side">
+            <div class="reg-brand-logo">PCMT ALUMNI<span>.</span></div>
+            <p class="reg-brand-tagline">
+                Because if your professional network can't handle the current disruption, neither will your career. Join 5000+ graduates.
             </p>
-            <a href="/admin/login" class="portal-btn btn-admin">Login as Admin</a>
+
+            <div class="reg-links-row">
+                <div class="link-group">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Why Alumni?</a></li>
+                        <li><a href="#">Success Stories</a></li>
+                        <li><a href="#">Events</a></li>
+                        <li><a href="#">Job Board</a></li>
+                    </ul>
+                </div>
+                <div class="link-group">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Leadership</a></li>
+                        <li><a href="#">Partners</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="link-group">
+                    <h4>Social</h4>
+                    <ul>
+                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
-        <!-- CARD 2: ALUMNI REGISTRATION -->
-        <div class="portal-card student-gate">
-            <div class="portal-icon">
-                <i class="fa-solid fa-user-graduate"></i>
-            </div>
-            <span class="portal-tag">Join Community</span>
-            <h2 class="portal-title">Passout Student</h2>
-            <p class="portal-desc">
-                Welcome back to the legacy. Register your details to reconnect with batchmates, access career opportunities, and stay updated.
-            </p>
-            <a href="/register" class="portal-btn btn-student">Register Now</a>
-        </div>
+        <!-- Form Side -->
+        <div class="reg-form-side">
+            <span class="mini-tag">Registration</span>
+            <h2>Join the <br> Legacy</h2>
 
+            <form class="alumni-form" th:action="@{/register}" method="post">
+
+                <input type="hidden"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}">
+
+
+                <div class="reg-input-group">
+                    <input type="text" name="fullName" placeholder="Full Name" required>
+                    <input type="tel" name="phoneNumber" placeholder="Phone Number" required>
+                </div>
+
+                <div style="position: relative;">
+                    <input type="email" name="email" placeholder="Enter your email..." required>
+
+                    <button type="submit" class="reg-submit-btn">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <div style="margin-top:15px;">
+                    <input type="text" name="department" placeholder="Department (e.g. CSE, ECE, ME)">
+                </div>
+
+                <!-- NEW: Description -->
+
+
+                <div class="reg-input-group" style="margin-top:15px;">
+                    <input type="text" name="batchYear" placeholder="Batch Year (e.g. 2022)">
+                    <input type="text" name="currentCompany" placeholder="Current Company">
+                </div>
+
+            </form>
+        </div>
     </div>
+
+    <!-- The Character Illustration (Using a placeholder, replace with your character image) -->
+    <div class="illustration-container">
+        <!-- Replace this source with a character illustration image similar to your UI -->
+        <img th:src="@{/images/register-bg.png}" alt="Alumni Illustration">
+    </div>
+
+    <!-- Footer Copyright -->
+    <div class="bottom-footer-line">
+        <p>© 2024 PCMT Alumni Association. All rights reserved.</p>
+        <div style="display: flex; gap: 20px;">
+            <span>Support</span>
+            <span>Privacy Policy</span>
+            <span>Terms of Use</span>
+            <span>Cookie Policy</span>
+        </div>
+    </div>
+
+
+
 </section>
+
+<!-- ================= ACCESS / PORTAL SECTION ================= -->
+
 
 
 <!-- SCRIPTS -->
@@ -1147,6 +1243,19 @@ document.getElementById("collegeNextBtn").addEventListener("click", () => {
     }, { threshold: 0.5 });
 
     portalObserver.observe(portalSection);
+</script>
+
+<script>
+    // Observe the Registration Section
+const regSection = document.getElementById('register');
+const regObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('active');
+        else entry.target.classList.remove('active');
+    });
+}, { threshold: 0.3 });
+
+regObserver.observe(regSection);
 </script>
 
 
