@@ -128,6 +128,73 @@
             font-size: 0.8rem;
             opacity: 0.7;
         }
+
+        /* SECTION 4: FOLDER GALLERY */
+
+.folder-gallery-section {
+    background: #f8f9fa;
+    padding: 100px 0;
+}
+
+.folder-heading {
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--dark-green);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.folder-subheading {
+    color: #666;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+.folder-card {
+    background: white;
+    border-radius: 25px;
+    overflow: hidden;
+    transition: 0.4s ease;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    height: 100%;
+}
+
+.folder-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.folder-image-wrapper {
+    height: 240px;
+    overflow: hidden;
+}
+
+.folder-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.5s ease;
+}
+
+.folder-card:hover .folder-image {
+    transform: scale(1.08);
+}
+
+.folder-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.folder-title {
+    font-weight: 700;
+    color: var(--dark-green);
+    margin-bottom: 8px;
+}
+
+.folder-desc {
+    color: #777;
+    font-size: 14px;
+}
     </style>
 </head>
 <body>
@@ -201,6 +268,65 @@
             </div>
         </div>
     </div>
+</section>
+
+<!-- SECTION 4: MEMORY FOLDERS -->
+<section class="folder-gallery-section">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <h2 class="folder-heading">Memory Collections</h2>
+
+            <p class="folder-subheading">
+                Explore farewell moments batch by batch
+            </p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+
+            <!-- SINGLE FOLDER CARD -->
+            <div class="col-lg-3 col-md-4 col-sm-6"
+                 th:each="folder : ${folders}">
+
+                <a th:href="@{'/gallery/' + ${folder.id}}"
+                   class="text-decoration-none">
+
+                    <div class="folder-card">
+
+                        <!-- THUMBNAIL -->
+                        <div class="folder-image-wrapper">
+
+                            <img th:src="${folder.thumbnailUrl}"
+                                 class="folder-image"
+                                 alt="Folder Thumbnail">
+
+                        </div>
+
+                        <!-- CONTENT -->
+                        <div class="folder-content">
+
+                            <h5 class="folder-title"
+                                th:text="${folder.name}">
+                                CSE 2023
+                            </h5>
+
+                            <p class="folder-desc">
+                                Click to explore memories
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </section>
 
 <footer class="text-center text-white bg-dark py-3">

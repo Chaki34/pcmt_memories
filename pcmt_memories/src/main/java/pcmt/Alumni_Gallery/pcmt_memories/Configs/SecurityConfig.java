@@ -34,10 +34,12 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/",
                                 "/alumni-search",
-                                "/result",
+                                "/gallery/**",
+                                "/search",
                                 "/3d_models/**",
                                 "/css/**",
                                 "/js/**",
+                                "/musics/**",
                                 "/images/**"
                         ).permitAll()
 
