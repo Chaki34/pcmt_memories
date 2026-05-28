@@ -93,5 +93,10 @@ public class PublicControllers {
         return "search-result";
     }
 
+    @GetMapping("/campus-explore")
+    public String  campusexplore (){
+        return "campus-explore";
+    }
+
 
 }

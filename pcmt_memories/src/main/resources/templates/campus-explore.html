@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCMT Campus | 3D Virtual Tour</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Satisfy&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 3D Model Viewer -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
+
+    <style>
+        :root {
+            --primary-teal: #87C7BE;
+            --dark-green: #0D3B36;
+            --white: #ffffff;
+            --light-bg: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--white);
+            color: var(--dark-green);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* HERO SECTION */
+        .hero-section {
+            padding: 80px 20px;
+            text-align: center;
+            background-color: var(--primary-teal);
+            border-bottom: 10px solid var(--dark-green);
+        }
+
+        .hero-title {
+            font-weight: 900;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .hero-tagline {
+            font-family: 'Satisfy', cursive;
+            font-size: 2.5rem;
+            color: var(--dark-green);
+        }
+
+        /* 3D MODEL SECTIONS */
+        .campus-section {
+            padding: 100px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* Alternate background color for zigzag clarity */
+        .campus-section:nth-child(even) {
+            background-color: var(--light-bg);
+        }
+
+        model-viewer {
+            width: 100%;
+            height: 450px;
+            background-color: #f0f0f0;
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .details-card {
+            padding: 30px;
+        }
+
+        .accent-bar {
+            width: 60px;
+            height: 6px;
+            background-color: var(--primary-teal);
+            margin-bottom: 20px;
+            border-radius: 3px;
+        }
+
+        .building-number {
+            font-size: 0.9rem;
+            font-weight: 900;
+            color: var(--primary-teal);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .building-title {
+            font-weight: 900;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--dark-green);
+        }
+
+        footer {
+            background-color: var(--dark-green);
+            color: var(--white);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .building-title { font-size: 1.8rem; }
+            model-viewer { height: 300px; }
+            .campus-section { padding: 60px 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HERO HEADER -->
+<header class="hero-section">
+    <div class="container">
+        <div class="logo-container mb-4">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRl0bDw6aS8mYFoeFYNi5pannQOYp_W0pdpkg&s" alt="Logo" style="width: 120px;">
+        </div>
+        <h1 class="hero-title">PCMT CAMPUS</h1>
+        <p class="hero-tagline">A 3D Architectural Journey</p>
+    </div>
+</header>
+
+<!-- SECTION 1: WHOLE CAMPUS (Model Left) -->
+<section class="campus-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <model-viewer src="/3d_models/pcmt-whole.glb" alt="Whole Campus" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+            </div>
+            <div class="col-lg-5">
+                <div class="details-card">
+                    <span class="building-number">Model 01</span>
+                    <div class="accent-bar"></div>
+                    <h2 class="building-title">Main Campus</h2>
+                    <p>Experience the bird's-eye view of the entire PCMT ecosystem. Spanning over several acres, our campus integrates green spaces with high-tech infrastructure.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 2: EDUCATION BUILDING (Model Right - Zigzag) -->
+<section class="campus-section">
+    <div class="container">
+        <div class="row align-items-center flex-md-row-reverse">
+            <div class="col-lg-7">
+                <model-viewer src="/3d_models/pcmt.glb" alt="Education Building" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+            </div>
+            <div class="col-lg-5">
+                <div class="details-card">
+                    <span class="building-number">Model 02</span>
+                    <div class="accent-bar"></div>
+                    <h2 class="building-title">Education Block</h2>
+                    <p>The heart of academic excellence. This building houses our modern smart-classrooms, the central library, and faculty research centers.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 3: BTECH BUILDING (Model Left) -->
+<section class="campus-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <model-viewer src="/3d_models/pcmt-btech.glb" alt="BTech Building" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+            </div>
+            <div class="col-lg-5">
+                <div class="details-card">
+                    <span class="building-number">Model 03</span>
+                    <div class="accent-bar"></div>
+                    <h2 class="building-title">B.Tech Center</h2>
+                    <p>Our engineering hub. Featuring advanced robotics labs, computer centers, and specialized workshops for budding innovators.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 4: LABS (Model Right - Zigzag) -->
+<section class="campus-section">
+    <div class="container">
+        <div class="row align-items-center flex-md-row-reverse">
+            <div class="col-lg-7">
+                <model-viewer src="/3d_models/labs.glb" alt="Labs Building" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+            </div>
+            <div class="col-lg-5">
+                <div class="details-card">
+                    <span class="building-number">Model 04</span>
+                    <div class="accent-bar"></div>
+                    <h2 class="building-title">Research & Labs</h2>
+                    <p>Dedicated spaces for scientific discovery and practical experimentation across all technical departments.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 5: AUDITORIUM (Model Left) -->
+<section class="campus-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <model-viewer src="/3d_models/auditorium.glb" alt="Auditorium" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+            </div>
+            <div class="col-lg-5">
+                <div class="details-card">
+                    <span class="building-number">Model 05</span>
+                    <div class="accent-bar"></div>
+                    <h2 class="building-title">Grand Auditorium</h2>
+                    <p>A state-of-the-art facility for seminars, cultural fests, and international conferences with a seating capacity of 1000+.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 6: SPORTS COMPLEX (Model Right - Zigzag) -->
+<section class="campus-section">
+    <div class="container">
+        <div class="row align-items-center flex-md-row-reverse">
+            <div class="col-lg-7">
+                <model-viewer src="/3d_models/sports.glb" alt="Sports Center" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+            </div>
+            <div class="col-lg-5">
+                <div class="details-card">
+                    <span class="building-number">Model 06</span>
+                    <div class="accent-bar"></div>
+                    <h2 class="building-title">Sports Arena</h2>
+                    <p>Promoting physical well-being through our indoor stadium, gymnasium, and multi-sport courts.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 7: HOSTEL (Model Left) -->
+<section class="campus-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <model-viewer src="/3d_models/hostel.glb" alt="Hostel Building" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+            </div>
+            <div class="col-lg-5">
+                <div class="details-card">
+                    <span class="building-number">Model 07</span>
+                    <div class="accent-bar"></div>
+                    <h2 class="building-title">Residential Hall</h2>
+                    <p>A home away from home. Modern living quarters for students with 24/7 security and high-speed internet.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 8: INNOVATION HUB (Model Right - Zigzag) -->
+<section class="campus-section">
+    <div class="container">
+        <div class="row align-items-center flex-md-row-reverse">
+            <div class="col-lg-7">
+                <model-viewer src="/3d_models/innovation.glb" alt="Innovation Hub" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+            </div>
+            <div class="col-lg-5">
+                <div class="details-card">
+                    <span class="building-number">Model 08</span>
+                    <div class="accent-bar"></div>
+                    <h2 class="building-title">Innovation Hub</h2>
+                    <p>The startup incubator. Where student ideas turn into reality through mentorship and industrial collaboration.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <p class="mb-0">&copy; <span th:text="${T(java.time.LocalDate).now().getYear()}"></span> PCMT College Campus. All Rights Reserved.</p>
+        <small class="opacity-50">Designed for modern educational excellence.</small>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+    const model = document.querySelector("model-viewer");
+
+    model.cameraOrbit = "0deg 75deg 2m"; // zoom in
+});
+</script>
+
+</body>
+</html>
