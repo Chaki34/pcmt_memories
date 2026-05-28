@@ -32,6 +32,7 @@ public class SecurityConfig {
                                 "/login",
                                 "/register",
                                 "/alumni-search",
+                                "/memberslist",
                                 "/gallery/**",
                                 "/search/**",
                                 "/3d_models/**",

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import pcmt.Alumni_Gallery.pcmt_memories.Entites.AlumniRegistration;
 import pcmt.Alumni_Gallery.pcmt_memories.Repos.AlumniRegistrationRepository;
 
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -16,5 +18,9 @@ public class AlumniRegistrationService {
 
     public AlumniRegistration save(AlumniRegistration alumni) {
         return repository.save(alumni);
+    }
+
+    public List<AlumniRegistration> getAll() {
+        return repository.findAllByOrderByCreatedAtDesc();
     }
 }

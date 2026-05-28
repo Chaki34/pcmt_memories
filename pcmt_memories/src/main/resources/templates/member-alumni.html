@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registered Alumni</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Poppins;
+            background: #2d2d2d;
+            color: white;
+        }
+
+        .container {
+            padding: 60px 8%;
+        }
+
+        h1 {
+            font-size: 40px;
+            margin-bottom: 30px;
+            background: linear-gradient(to right,#fff,#8ec5fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .label {
+            color: #8ec5fc;
+            font-size: 12px;
+            letter-spacing: 2px;
+        }
+
+        .value {
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        .whatsapp {
+            display: inline-block;
+            margin-top: 10px;
+            background: #25D366;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Registered Alumni</h1>
+
+    <div th:each="a : ${alumniList}" class="card">
+
+        <div class="grid">
+
+            <div>
+                <div class="label">NAME</div>
+                <div class="value" th:text="${a.fullName}"></div>
+            </div>
+
+            <div>
+                <div class="label">EMAIL</div>
+                <div class="value" th:text="${a.email}"></div>
+            </div>
+
+            <div>
+                <div class="label">PHONE (WhatsApp)</div>
+                <div class="value" th:text="${a.phoneNumber}"></div>
+
+                <a class="whatsapp"
+                   th:href="'https://wa.me/' + ${a.phoneNumber}">
+                    Chat on WhatsApp
+                </a>
+            </div>
+
+            <div>
+                <div class="label">DEPARTMENT</div>
+                <div class="value" th:text="${a.department}"></div>
+            </div>
+
+            <div>
+                <div class="label">BATCH</div>
+                <div class="value" th:text="${a.batchYear}"></div>
+            </div>
+
+            <div>
+                <div class="label">COMPANY</div>
+                <div class="value" th:text="${a.currentCompany}"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
