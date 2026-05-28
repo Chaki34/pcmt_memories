@@ -39,6 +39,7 @@ public class SecurityConfig {
                                 "/js/**",
                                 "/musics/**",
                                 "/images/**",
+                                "/videos/**",
                                 "/favicon.ico"
                         ).permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
@@ -49,16 +50,17 @@ public class SecurityConfig {
                 .headers(headers -> headers
                         .frameOptions(frame -> frame.sameOrigin())
                         .contentSecurityPolicy(csp -> csp
-                                .policyDirectives("default-src 'self'; " +
-                                        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; " +
-                                        "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; " +
-                                        // Broadened img-src to include all google subdomains
-                                        "img-src 'self' data: https://*.googleusercontent.com https://*.google.com https://drive.google.com https://*.gstatic.com; " +
-                                        "media-src 'self' data: https://drive.google.com https://*.googleusercontent.com; " +
-                                        "frame-src 'self' https://drive.google.com https://www.google.com; " +
-                                        // Added connect-src to allow bootstrap maps and external requests
-                                        "connect-src 'self' https://cdn.jsdelivr.net https://*.googleusercontent.com; " +
-                                        "font-src 'self' https://fonts.gstatic.com;")
+                                .policyDirectives(
+                                        "default-src 'self'; " +
+                                                "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://ajax.googleapis.com https://unpkg.com; " +
+                                                "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; " +
+                                                "img-src 'self' data: https:; " +
+                                                "media-src 'self' data: blob: https:; " +
+                                                "object-src 'self' blob:; " +
+                                                "frame-src 'self' https://drive.google.com https://www.google.com; " +
+                                                "connect-src 'self' https: blob:; " +
+                                                "font-src 'self' https://fonts.gstatic.com;"
+                                )
                         )
                 )
 

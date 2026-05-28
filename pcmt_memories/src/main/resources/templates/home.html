@@ -797,10 +797,7 @@
             preload="metadata"
     >
 
-        <source
-                src="https://www.pexels.com/download/video/35854268/"
-                type="video/mp4"
-        >
+        <source th:src="@{/videos/hero-bg.mp4}" type="video/mp4">
 
     </video>
 
@@ -816,6 +813,9 @@
 
     <!-- EXTRA OVERLAY -->
     <div class="overlay"></div>
+
+
+
 
     <!-- HERO CONTENT -->
     <div class="hero-content">
@@ -853,7 +853,7 @@
 <!-- MEMORIES SECTION -->
 <section class="memories-section">
     <video class="memories-video" autoplay muted loop playsinline>
-        <source src="https://www.pexels.com/download/video/36878099/" type="video/mp4">
+        <source th:src="@{/videos/memories-bg.mp4}" type="video/mp4">
     </video>
     <div class="memories-overlay"></div>
 
@@ -872,7 +872,7 @@
 
     <!-- BACKGROUND VIDEO -->
     <video class="bg-video" muted autoplay loop playsinline preload="metadata">
-        <source src="https://www.pexels.com/download/video/30172302/" type="video/mp4">
+        <source th:src="@{/videos/cricket-bg.mp4}" type="video/mp4">
     </video>
 
     <!-- DARK OVERLAY -->
@@ -1040,18 +1040,18 @@
         {
             title: "Cricket Memories",
             desc: "Our cricket ground has witnessed unforgettable moments of teamwork, passion, and victory.",
-            video: "https://www.pexels.com/download/video/30172302/"
+            video: "/videos/cricket-bg.mp4"
         },
-        {
-            title: "Football Glory",
-            desc: "Fast-paced matches, cheering crowds, and legendary goals that defined PCMT football culture.",
-            video: "https://www.pexels.com/download/video/15905220/"
-        },
-        {
-            title: "Sports Day Spirit",
-            desc: "Annual sports day filled with energy, competition, and unforgettable student achievements.",
-            video: "https://www.pexels.com/download/video/37517204/"
-        }
+       {
+    title: "Football Glory",
+    desc: "Fast-paced matches, cheering crowds, and legendary goals that defined PCMT football culture.",
+    video: "/videos/football-bg.mp4"
+},
+{
+    title: "Sports Day Spirit",
+    desc: "Annual sports day filled with energy, competition, and unforgettable student achievements.",
+    video: "/videos/sports-day-bg.mp4"
+}
     ];
 
     let index = 0;
@@ -1080,31 +1080,31 @@
         }, 300);
     });
 
-    const collegeData = [
+const collegeData = [
     {
         title: "Computer Lab Memories",
         desc: "Late-night coding sessions, project submissions, and endless learning in our advanced computer labs.",
-        video: "https://www.pexels.com/download/video/34508543/"
+        video: "/videos/science-engineering-labs-bg.mp4"
     },
     {
         title: "College Canteen",
         desc: "Tea breaks, laughter, and unforgettable conversations shared in the bustling canteen.",
-        video: "https://www.pexels.com/download/video/855386/"
+        video: "/videos/canteen-bg.mp4"
     },
     {
         title: "Science & Engineering Labs",
         desc: "Hands-on experiments, innovation, and discovery across multiple engineering labs.",
-        video: "https://www.pexels.com/download/video/15864645/"
+        video: "/videos/science-engineering-labs-bg.mp4"
     },
     {
         title: "Common Room Moments",
         desc: "Relaxation, discussions, and bonding time with friends between classes.",
-        video: "https://www.pexels.com/download/video/32520679/"
+        video: "/videos/common-rooms.mp4"
     },
     {
         title: "Passout Signature Wall",
         desc: "A wall filled with signatures, memories, and emotions of every graduating batch.",
-        video: "https://www.pexels.com/download/video/8257215/"
+        video: "/videos/wall.mp4"
     }
 ];
 
