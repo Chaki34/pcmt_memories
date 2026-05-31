@@ -21,4 +21,9 @@ public class AlumniRegistrationController {
 
         return "redirect:/#register";
     }
+
+    @GetMapping("/login")
+    public  String login (){
+        return "login";
+    }
 }

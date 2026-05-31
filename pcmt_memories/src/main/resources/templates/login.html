@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCMT - login</title>
+
+    <!-- Bootstrap 5 CSS (Allowed via your SecurityConfig) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #A3ADB2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* Main Container Styling */
+        .main-card {
+            background-color: #E9E9E2;
+            border-radius: 45px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            max-width: 1100px;
+            width: 100%;
+            min-height: 720px;
+        }
+
+        /* Form Side Styling */
+        .form-side {
+            background: linear-gradient(135deg, #F1F1EB 0%, #F7F7F0 100%);
+            padding: 60px;
+        }
+
+        .logo-pill {
+            border: 1px solid #999;
+            border-radius: 50px;
+            padding: 5px 20px;
+            display: inline-block;
+            font-size: 0.85rem;
+            color: #444;
+            margin-bottom: 40px;
+        }
+
+        /* Input Styling to match the UI */
+        .custom-label {
+            font-size: 11px;
+            color: #999;
+            margin-left: 15px;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        .custom-input {
+            background-color: #F3F4F1 !important;
+            border: none !important;
+            border-radius: 20px !important;
+            padding: 14px 20px !important;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .custom-input:focus {
+            box-shadow: 0 0 0 2px #FFD966 !important;
+        }
+
+        /* Button Styling */
+        .btn-submit {
+            background-color: #FFD966;
+            border: none;
+            border-radius: 20px;
+            padding: 14px;
+            font-weight: 600;
+            color: #333;
+            width: 100%;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #F7C948;
+        }
+
+        .btn-social {
+            border: 1px solid #ddd;
+            border-radius: 18px;
+            padding: 10px;
+            background: transparent;
+            font-size: 14px;
+            font-weight: 500;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Image Side Overlay Styling */
+        .image-side {
+            position: relative;
+            padding: 20px;
+        }
+
+        .img-container {
+            position: relative;
+            height: 100%;
+            width: 100%;
+            border-radius: 40px;
+            overflow: hidden;
+        }
+
+        .bg-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Floating Widgets */
+        .widget-task {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            background: #FFD966;
+            padding: 15px;
+            border-radius: 15px;
+            width: 180px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .widget-calendar {
+            position: absolute;
+            bottom: 160px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 85%;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 20px;
+            color: white;
+        }
+
+        .widget-meeting {
+            position: absolute;
+            bottom: 40px;
+            left: 30px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 25px;
+            width: 240px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .avatar-group img {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid white;
+            margin-right: -10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-card container-fluid p-0">
+    <div class="row g-0 h-100">
+
+        <!-- Left Side: Form -->
+        <div class="col-lg-6 form-side d-flex flex-column justify-content-between">
+            <div>
+                <div class="logo-pill">Crextio</div>
+            </div>
+
+            <div class="mx-auto w-100" style="max-width: 400px;">
+                <div class="text-center mb-4">
+                    <h2 class="fw-normal mb-1">Create A Session</h2>
+                    <p class="text-muted small">Sign up and get 30 day free trial</p>
+                </div>
+
+                <form th:action="@{/create-seassion}" method="post">
+                    <!-- Username -->
+                    <div class="mb-3">
+                        <label class="custom-label">Username</label>
+                        <input type="text" name="username" class="form-control custom-input" placeholder="amelielaurent" required>
+                    </div>
+
+                    <!-- Email or Phone -->
+                    <div class="mb-3">
+                        <label class="custom-label">Email or Phone</label>
+                        <input type="text" name="identifier" class="form-control custom-input" placeholder="amélielaurent7622@gmail.com" required>
+                    </div>
+
+                    <!-- Role Selection -->
+                    <div class="mb-3">
+                        <label class="custom-label">Select Role</label>
+                        <select name="role" class="form-select custom-input">
+                            <option value="USER">User</option>
+                            <option value="ADMIN">Administrator</option>
+                            <option value="MANAGER">Manager</option>
+                        </select>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-4 position-relative">
+                        <label class="custom-label">Password</label>
+                        <input type="password" name="password" class="form-control custom-input" placeholder="****************" required>
+                        <i class="bi bi-eye position-absolute" style="right: 20px; bottom: 15px; color: #aaa; cursor: pointer;"></i>
+                    </div>
+
+                    <button type="submit" class="btn btn-submit">Submit</button>
+
+                    <div class="row g-2 mt-2">
+                        <div class="col-6">
+                            <button type="button" class="btn btn-social">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" width="14" alt=""> Apple
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button type="button" class="btn btn-social">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="14" alt=""> Google
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="d-flex justify-content-between mt-5 pt-3 border-top" style="font-size: 11px;">
+                <span class="text-muted">Have any account? <a href="/login" class="text-dark fw-bold text-decoration-underline">Sign in</a></span>
+                <a href="#" class="text-muted text-decoration-underline">Terms & Conditions</a>
+            </div>
+        </div>
+
+        <!-- Right Side: Image Overlay -->
+        <div class="col-lg-6 d-none d-lg-block image-side">
+            <div class="img-container">
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" class="bg-img" alt="Office">
+
+                <!-- Floating X Button -->
+                <div class="position-absolute bg-white rounded-circle d-flex align-items-center justify-content-center" style="top:25px; right:25px; width:35px; height:35px; cursor:pointer;">
+                    <span>&times;</span>
+                </div>
+
+                <!-- Widget: Task -->
+                <div class="widget-task">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span style="font-size: 10px; font-weight: 700;">Task Review With Team</span>
+                        <div style="width: 5px; height: 5px; background: black; border-radius: 50%;"></div>
+                    </div>
+                    <div style="font-size: 9px; opacity: 0.7;">09:30am-10:00am</div>
+                </div>
+
+                <!-- Widget: Calendar (Glassmorphism) -->
+                <div class="widget-calendar">
+                    <div class="d-flex justify-content-between mb-2" style="font-size: 10px; opacity: 0.6; text-transform: uppercase;">
+                        <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center" style="font-size: 16px;">
+                        <span style="opacity: 0.5;">22</span>
+                        <span style="opacity: 0.5;">23</span>
+                        <span style="opacity: 0.5;">24</span>
+                        <span class="fw-bold border-bottom border-warning border-2">25</span>
+                        <span>26</span>
+                        <span>27</span>
+                        <span>28</span>
+                    </div>
+                </div>
+
+                <!-- Widget: Meeting -->
+                <div class="widget-meeting">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <div class="fw-bold" style="font-size: 12px;">Daily Meeting</div>
+                            <div class="text-muted" style="font-size: 10px;">12:00pm-01:00pm</div>
+                        </div>
+                        <div style="width: 8px; height: 8px; background: #FFD966; border-radius: 50%; margin-top: 5px;"></div>
+                    </div>
+                    <div class="avatar-group mt-3">
+                        <img src="https://i.pravatar.cc/100?u=1">
+                        <img src="https://i.pravatar.cc/100?u=2">
+                        <img src="https://i.pravatar.cc/100?u=3">
+                        <img src="https://i.pravatar.cc/100?u=4">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
